@@ -1,1 +1,4 @@
 venv/
+avitoscraper/propertydata.json
+avitoscraper/property.txt
+__pycache__/
