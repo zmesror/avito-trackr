@@ -63,7 +63,7 @@ class PropertyspiderSpider(scrapy.Spider):
             ad_info = data["props"]["pageProps"]["componentProps"]["adInfo"]["ad"]
             property_item = PropertyItem()
 
-            property_item["url"] = response.url
+            property_item["url"] = unquote(response.url)
             property_item["ad_title"] = ad_info["subject"]
             property_item["description"] = ad_info["description"]
             property_item["price"] = ad_info["price"].get("value", None)
