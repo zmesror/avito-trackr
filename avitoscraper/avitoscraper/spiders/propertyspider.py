@@ -85,7 +85,7 @@ class PropertyspiderSpider(scrapy.Spider):
         except (ValueError, KeyError):
             self.logger.error(f"Failed to parse data for URL: {response.url}")
 
-    def total_surface(self, data: Dict, key: str, value: Union[str, int]) -> str:
+    def total_surface(self, data: Dict, key: str, value: Union[str, int]) -> int:
         """
         Extract surface value from property data based on a given key and value.
 
@@ -96,15 +96,15 @@ class PropertyspiderSpider(scrapy.Spider):
         :param value: The value associated with the key, indicating the specific surface to extract.
         :type value: str
         :return: The extracted surface value matching the provided key and value, or an empty string if not found.
-        :rtype: str
+        :rtype: int
         """
         for param in data.get("params", {}).get(key, []):
             try:
                 if param.get("key") == value:
-                    return param.get("value", "")
+                    return int(param.get("value", ""))
             except KeyError:
                 pass
-        return ""
+        return 0
 
     def get_next_page_url(self, response: scrapy.http.Response) -> Union[str, None]:
         """
