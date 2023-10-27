@@ -3,6 +3,7 @@ import json
 from urllib.parse import unquote
 from typing import Dict, Union
 
+from avitoscraper.items import PropertyItem
 from helpers import get_last_url, save
 
 
@@ -60,24 +61,27 @@ class PropertyspiderSpider(scrapy.Spider):
             data = json.loads(json_data)
 
             ad_info = data["props"]["pageProps"]["componentProps"]["adInfo"]["ad"]
+            property_item = PropertyItem()
 
-            yield {
-                "url": response.url,
-                "ad_title": ad_info["subject"],
-                "description": ad_info["description"],
-                "price": ad_info["price"].get("value", None),
-                "address": ad_info["location"]["address"],
-                "city": ad_info["location"]["city"]["name"],
-                "category": ad_info["category"]["name"],
-                "is_new_building": ad_info["isImmoneuf"],
-                "phone": ad_info["phone"],
-                "published_date": ad_info["listTime"],
-                "seller_name": ad_info["seller"]["name"],
-                "habitable_size": self.total_surface(
-                    ad_info, "primary", "habitable_size"
-                ),
-                "total_surface": self.total_surface(ad_info, "secondary", "size"),
-            }
+            property_item["url"] = response.url
+            property_item["ad_title"] = ad_info["subject"]
+            property_item["description"] = ad_info["description"]
+            property_item["price"] = ad_info["price"].get("value", None)
+            property_item["address"] = ad_info["location"]["address"]
+            property_item["city"] = ad_info["location"]["city"]["name"]
+            property_item["category"] = ad_info["category"]["name"]
+            property_item["is_new_building"] = ad_info["isImmoneuf"]
+            property_item["phone"] = ad_info["phone"]
+            property_item["published_date"] = ad_info["listTime"]
+            property_item["seller_name"] = ad_info["seller"]["name"]
+            property_item["habitable_size"] = self.total_surface(
+                ad_info, "primary", "habitable_size"
+            )
+            property_item["total_surface"] = self.total_surface(
+                ad_info, "secondary", "size"
+            )
+
+            yield property_item
         except (ValueError, KeyError):
             self.logger.error(f"Failed to parse data for URL: {response.url}")
 
