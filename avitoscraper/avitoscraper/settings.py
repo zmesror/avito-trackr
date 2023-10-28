@@ -7,10 +7,18 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+from helpers import load_api_key
+
 BOT_NAME = "avitoscraper"
 
 SPIDER_MODULES = ["avitoscraper.spiders"]
 NEWSPIDER_MODULE = "avitoscraper.spiders"
+
+
+SCRAPEOPS_API_KEY = load_api_key()
+SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT = 'https://headers.scrapeops.io/v1/user-agents'
+SCRAPEOPS_FAKE_USER_AGENT_ENABLED = True
+SCRAPEOPS_NUM_RESULTS = 5
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -50,9 +58,9 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "avitoscraper.middlewares.AvitoscraperDownloaderMiddleware": 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    "avitoscraper.middlewares.ScrapeOpsFakeUserAgentMiddleware": 400,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
