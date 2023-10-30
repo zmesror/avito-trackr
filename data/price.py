@@ -3,16 +3,14 @@ import sys
 
 
 class Price:
-    def __init__(self):
+    def __init__(self, mydb):
         """
         Initialize the Price class by establishing a MySQL database connection.
 
         :raises: SystemExit with an error message if a MySQL connection error occurs.
         """
         try:
-            self.mydb = mysql.connector.connect(
-                host="localhost", user="root", password="", database="avito_trackr"
-            )
+            self.mydb = mydb
             self.mycursor = self.mydb.cursor()
         except mysql.connector.Error as err:
             sys.exit("MySQL Error: {}".format(err))
@@ -50,7 +48,10 @@ class Price:
 
 
 def main():
-    price = Price()
+    mydb = mysql.connector.connect(
+        host="localhost", user="root", password="", database="test_avito"
+    )
+    price = Price(mydb)
     print("Average price per m2:", f"{price.mean()[0]:.2f}")
     print("Average price by city:")
     for city, average in price.mean_city():
