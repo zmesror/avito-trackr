@@ -1,5 +1,6 @@
 import mysql.connector
 import sys
+import matplotlib.pyplot as plt
 
 
 class Price:
@@ -49,13 +50,32 @@ class Price:
 
 def main():
     mydb = mysql.connector.connect(
-        host="localhost", user="root", password="", database="test_avito"
+        host="localhost", user="root", password="", database="avito_trackr"
     )
     price = Price(mydb)
     print("Average price per m2:", f"{price.mean()[0]:.2f}")
     print("Average price by city:")
-    for city, average in price.mean_city():
+    data = price.mean_city()
+    for city, average in data:
         print(city, f"{average:.2f}", sep=", ")
+    
+    # Create data visualization
+    cities, averages = zip(*data)
+    colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+
+    plt.figure(figsize=(10, 6))
+    bars = plt.bar(cities, averages, color=colors[:len(cities)])
+    plt.xlabel("City")
+    plt.ylabel("Average Price")
+    plt.title("The average price per m2 of an apartment in Morocco.")
+    plt.xticks(rotation=45)
+
+    for i, bar in enumerate(bars):
+        bar.set_label(f'{cities[i]} ({averages[i]:.2f})')
+
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig("averages.png")
 
 
 if __name__ == "__main__":
