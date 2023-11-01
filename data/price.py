@@ -1,6 +1,7 @@
 import mysql.connector
 import sys
 import matplotlib.pyplot as plt
+import argparse
 
 
 class Price:
@@ -135,21 +136,41 @@ def main():
         host="localhost", user="root", password="", database="avito_trackr"
     )
     price = Price(mydb)
-    print("Average price per m2:", f"{price.mean_all()[0]:.2f}")
-    print("Average price by city:")
-    data1 = price.mean_city()
-    for city, average in data1:
-        print(city, f"{average:.2f}", sep=", ")
 
-    data2 = price.mean()
-    print("Average price per m2 for last year:")
-    for row in data2:
-        print(row)
+    parser = argparse.ArgumentParser()
 
-    # Create data visualization
-    cities, averages = zip(*data1)
-    price.plot_bar(cities, averages)
-    price.plot_mean_evolution(data2)
+    parser.add_argument("-a", "--calculate-all", action="store_true", help="calculate the average price per m2 for each city")
+    parser.add_argument("-c", "--city", nargs="?", help="city for average price/m2 calculation")
+    parser.add_argument("-p", "--plot-cities", action="store_true", help="plot average prices as bar charts for different cities")
+    parser.add_argument("-t", "--time", type=int, help="time period for calculation")
+    parser.add_argument("-pt", "--plot-time", action="store_true", help="plot the average prices over time")
+
+    args = parser.parse_args()
+
+    if args.plot_cities and not args.calculate_all:
+        parser.error("--plot-cities can only be used with --calculate-all.")
+    if args.plot_time and not args.time:
+        parser.error("--plot-time can only be used with --time.")
+    if args.city:
+        print(f"Average price per m2 in {args.city}: {price.mean_all(args.city)[0]:.2f} DH/m2")
+    elif args.calculate_all:
+        print("Average price by city:")
+        data = price.mean_city()
+        for city, average in data:
+            print(city, f"{average:.2f} DH/m2", sep=", ")
+        if args.plot_cities:
+            cities, averages = zip(*data)
+            price.plot_bar(cities, averages)
+    elif args.time:
+            data = price.mean(args.time)
+            print(f"Average price per m2 ({args.time}Y):")
+            for row in data:
+                print(row)
+            if args.plot_time:
+                price.plot_mean_evolution(data)
+    else:
+        print("Average price per m2:", f"{price.mean_all()[0]:.2f}")
+    
 
 
 if __name__ == "__main__":
