@@ -1,0 +1,6 @@
+matplotlib
+mysql
+mysql-connector-python
+pytest
+Scrapy
+
