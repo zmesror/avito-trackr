@@ -27,7 +27,7 @@ class Price:
         :return: The average price per square meter.
         :rtype: tuple
         """
-        sql = "SELECT AVG(price / habitable_size) FROM property WHERE price IS NOT NULL AND habitable_size IS NOT NULL"
+        sql = "SELECT AVG(price / habitable_size) FROM property WHERE price IS NOT NULL AND habitable_size IS NOT NULL "
         if city:
             sql += f"AND city='{city}';"
         else:
