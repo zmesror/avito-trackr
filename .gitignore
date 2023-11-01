@@ -4,3 +4,4 @@ avitoscraper/property.txt
 __pycache__/
 config.json
 averages.png
+plot.png

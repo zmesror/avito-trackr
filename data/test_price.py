@@ -18,11 +18,11 @@ def price_instance():
         pytest.fail(f"MySQL Error: {err}")
 
 def test_mean_with_city(price_instance):
-    result = price_instance.mean("Casablanca")
+    result = price_instance.mean_all("Casablanca")
     assert result == (6250.00,)
 
 def test_mean_without_city(price_instance):
-    result = price_instance.mean()
+    result = price_instance.mean_all()
     assert result == (6125.00,)
 
 def test_mean_city(price_instance):
