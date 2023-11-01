@@ -65,6 +65,8 @@ class Price:
         WHERE published_date >= DATE_SUB(NOW(), INTERVAL 1 YEAR) AND price IS NOT NULL
         GROUP BY YEAR(published_date), MONTH(published_date) 
         ORDER BY year DESC, month DESC;"""
+        if interval < 1:
+            raise ValueError("Invalid interval")
         self.mycursor.execute(sql)
         return self.mycursor.fetchall()
 
@@ -181,12 +183,15 @@ def main():
             cities, averages = zip(*data)
             price.plot_bar(cities, averages)
     elif args.time:
-        data = price.mean(args.time)
-        print(f"Average price per m2 ({args.time}Y):")
-        for row in data:
-            print(row)
-        if args.plot_time:
-            price.plot_mean_evolution(data)
+        try:
+            data = price.mean(args.time)
+            print(f"Average price per m2 ({args.time}Y):")
+            for row in data:
+                print(row)
+            if args.plot_time:
+                price.plot_mean_evolution(data)
+        except ValueError:
+            sys.exit("time must be greater than or equal to 1")
     else:
         print("Average price per m2:", f"{price.mean_all()[0]:.2f}")
 
