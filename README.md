@@ -1,6 +1,6 @@
-# Avito-Trackr : Suivi de l'évolution des prix immobiliers au Maroc
+# AvitoTrackr : Suivi de l'évolution des prix immobiliers au Maroc
 
-Le projet Avito-Trackr est une application qui permet de collecter des données sur l'évolution des prix de l'immobilier au Maroc depuis le site avito.ma, de stocker les données dans une base de données MySQL, de calculer le prix moyen par mètre carré d'un appartement dans différentes villes, et de visualiser les données avec Matplotlib.
+AvitoTrackr est conçu pour recueillir des données sur l'évolution des prix de l'immobilier au Maroc à partir du site avito.ma. Ces données sont ensuite stockées dans une base de données MySQL, permettant de calculer le prix moyen par m2 des appartements dans différentes villes, et de les afficher graphiquement avec Matplotlib.
 
 ## Table des matières
 - [Installation](#installation)
@@ -13,7 +13,7 @@ Le projet Avito-Trackr est une application qui permet de collecter des données 
 
 ## Installation
 
-Avant d'utiliser Avito-Trackr, assurez-vous d'avoir Python (version 3.6 ou supérieure) installé sur votre système.
+Avant d'utiliser AvitoTrackr, assurez-vous d'avoir Python (version 3.6 ou supérieure) installé sur votre système.
 
 1. Clonez le dépôt GitHub :
 
@@ -116,4 +116,4 @@ N'hésitez pas à explorer les options disponibles dans `price.py` pour personna
 
 ## Contribuer
 
-Si vous souhaitez contribuer au projet Avito-Trackr, nous vous accueillons avec des suggestions, des rapports de bogues ou des demandes de fonctionnalités. Vous pouvez ouvrir une issue sur GitHub ou soumettre une pull request.
+Si vous souhaitez contribuer au projet AvitoTrackr, nous vous accueillons avec des suggestions, des rapports de bogues ou des demandes de fonctionnalités. Vous pouvez ouvrir une issue sur GitHub ou soumettre une pull request.
